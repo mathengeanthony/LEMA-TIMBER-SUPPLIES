@@ -1,4 +1,5 @@
-import { Calculator, ArrowRight, ShieldCheck, Award, Construction, Truck, Users, MapPin, Phone } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calculator, ArrowRight, ShieldCheck, Award, Construction, Truck, Users, MapPin, Phone, Ruler } from 'lucide-react';
 
 interface HeroProps {
   onOpenEstimator: () => void;
@@ -6,6 +7,29 @@ interface HeroProps {
 }
 
 export default function Hero({ onOpenEstimator, onExploreProducts }: HeroProps) {
+  const [activeIconIdx, setActiveIconIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIconIdx((prev) => (prev + 1) % 3);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const renderActiveIcon = () => {
+    const iconClass = "w-7 h-7 text-brand-green-950 transition-all duration-300 transform scale-110";
+    switch (activeIconIdx) {
+      case 0:
+        return <Calculator className={iconClass} />;
+      case 1:
+        return <Ruler className={iconClass} />;
+      case 2:
+        return <Truck className={iconClass} />;
+      default:
+        return <Calculator className={iconClass} />;
+    }
+  };
+
   const highlights = [
     {
       icon: <ShieldCheck className="w-8 h-8 text-brand-gold-500" />,
@@ -71,24 +95,49 @@ export default function Hero({ onOpenEstimator, onExploreProducts }: HeroProps) 
               We supply the finest selection of premium-grade Cypress & Mahogany structural timbers, high-yield steel bars (Y8-Y16), treated fencing poles, chain-link wire fences, and heavy-duty water tanks in Kitengela and surrounding regions.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
-              <button
-                onClick={onExploreProducts}
-                className="bg-brand-gold-500 hover:bg-brand-gold-600 active:bg-brand-gold-700 text-brand-green-950 font-bold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2.5 text-base cursor-pointer"
-                id="hero-btn-catalog"
-              >
-                Browse Online Store
-                <ArrowRight className="w-5 h-5" />
-              </button>
+            <div className="flex flex-col gap-5 pt-4">
+              <div className="flex flex-col xl:flex-row items-stretch xl:items-center gap-4">
+                <button
+                  onClick={onExploreProducts}
+                  className="bg-brand-gold-500 hover:bg-brand-gold-600 active:bg-brand-gold-700 text-brand-green-950 font-black px-8 py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2.5 text-base cursor-pointer shrink-0"
+                  id="hero-btn-catalog"
+                >
+                  Browse Online Store
+                  <ArrowRight className="w-5 h-5" />
+                </button>
 
-              <button
-                onClick={onOpenEstimator}
-                className="bg-brand-green-800 hover:bg-brand-green-700 text-white font-bold px-6 py-4 rounded-xl border border-brand-green-600 hover:border-brand-gold-500/50 shadow-md transition-all flex items-center justify-center gap-2.5 text-base cursor-pointer"
-                id="hero-btn-calculator"
-              >
-                <Calculator className="w-5 h-5 text-brand-gold-500" />
-                Timber Size Calculator & Price Estimator
-              </button>
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  {/* Standalone large animated icon box, aligned perfectly next to the button */}
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-brand-gold-500 rounded-2xl flex items-center justify-center shadow-lg border-2 border-brand-gold-400 shrink-0 select-none transition-all hover:scale-105 duration-300">
+                    {renderActiveIcon()}
+                  </div>
+                  <button
+                    onClick={onOpenEstimator}
+                    className="flex-1 bg-brand-green-800 hover:bg-brand-green-700 text-white font-black px-5 py-4 sm:py-4.5 rounded-xl border border-brand-green-600 hover:border-brand-gold-500/50 shadow-md transition-all text-[11px] sm:text-xs md:text-sm tracking-wider leading-snug cursor-pointer text-left flex items-center justify-between group min-w-0"
+                    id="hero-btn-calculator"
+                  >
+                    <span>
+                      TIMBER & MATERIALS SIZE, PRICE AND DELIVERY COST CALCULATOR
+                    </span>
+                    <ArrowRight className="w-4.5 h-4.5 ml-2.5 text-brand-gold-500 group-hover:translate-x-1 transition-transform shrink-0" />
+                  </button>
+                </div>
+              </div>
+
+              {/* High-visibility Call to Action (CTA) box below the buttons */}
+              <div className="bg-brand-green-800/60 backdrop-blur-md border border-brand-green-700 rounded-2xl p-4 shadow-lg flex items-start sm:items-center gap-4 max-w-3xl animate-fadeIn">
+                <div className="text-2xl shrink-0 p-2.5 bg-brand-green-900 border border-brand-green-700/60 rounded-xl text-brand-gold-500 select-none font-mono">
+                  📋
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-brand-gold-500 font-extrabold text-xs sm:text-sm tracking-widest uppercase">
+                    GET ACCURATE QUOTATIONS AND DELIVERY COSTS IN 4 EASY STEPS
+                  </h4>
+                  <p className="text-xs text-brand-green-100 font-bold tracking-wide leading-relaxed uppercase">
+                    DOWNLOAD QUOTATION PDF OR PROCEED TO CHECK OUT
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Quick Contact Hotline Snippet */}

@@ -49,7 +49,7 @@ const VEHICLES = [
   }
 ];
 
-export default function TransportEstimator({ onClose }: TransportEstimatorProps) {
+export default function TransportEstimator({ onClose, onDownloadPDF }: TransportEstimatorProps) {
   const [selectedZoneIdx, setSelectedZoneIdx] = useState(0);
   const [customDistance, setCustomDistance] = useState<number | null>(null);
   const [selectedVehicleId, setSelectedVehicleId] = useState('canter');
@@ -357,15 +357,15 @@ export default function TransportEstimator({ onClose }: TransportEstimatorProps)
                     title: 'TRANSPORT HAULAGE QUOTE',
                     quoteNo: `LEMA-TR-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
                     deliveryType: 'delivery',
-                    deliveryLocation: REGIONAL_ZONES[selectedZoneIdx].name,
+                    deliveryLocation: customDistance !== null ? `Custom Zone (${customDistance} km)` : REGIONAL_ZONES[selectedZoneIdx].name,
                     deliveryCost: activeCalculation.totalCost,
                     subtotal: 0,
                     total: activeCalculation.totalCost,
-                    notes: `Transport estimation utilizing ${VEHICLES[selectedVehicleIdx].name} over a distance of ${activeDistance} km to ${REGIONAL_ZONES[selectedZoneIdx].name}. Estimated transit window: ${activeTime}.`,
+                    notes: `Transport estimation utilizing ${activeCalculation.name} over a distance of ${activeDistance} km to ${activeZoneName}. Estimated transit window: ${activeTime}.`,
                     items: [
                       {
-                        name: `Haulage Delivery service (${VEHICLES[selectedVehicleIdx].name})`,
-                        descriptionText: `Logistics transport to ${REGIONAL_ZONES[selectedZoneIdx].name} (${activeDistance} km)`,
+                        name: `Haulage Delivery service (${activeCalculation.name})`,
+                        descriptionText: `Logistics transport to ${activeZoneName} (${activeDistance} km)`,
                         quantity: 1,
                         unitPrice: activeCalculation.totalCost,
                         totalPrice: activeCalculation.totalCost,

@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import BlogPage from './components/BlogPage';
 import ProductDetail from './components/ProductDetail';
 import TransportEstimator from './components/TransportEstimator';
+import PrintArea, { PrintData } from './components/PrintArea';
 
 export default function App() {
   // --- STATE MANAGERS ---
@@ -37,6 +38,7 @@ export default function App() {
   
   // Invoice reprint coordinator
   const [reprintOrder, setReprintOrder] = useState<OrderInquiry | null>(null);
+  const [activePrintData, setActivePrintData] = useState<PrintData | null>(null);
 
   // Quick inquiry form state
   const [quickName, setQuickName] = useState('');
@@ -236,6 +238,7 @@ export default function App() {
             onBack={() => setSelectedProductId(null)}
             onAddToCart={handleAddToCart}
             onSelectProduct={(id) => setSelectedProductId(id)}
+            onDownloadPDF={setActivePrintData}
           />
         ) : (
           <>
@@ -261,7 +264,7 @@ export default function App() {
                 </p>
               </div>
 
-              <LumberCalculator onAddToCart={handleAddToCart} />
+              <LumberCalculator onAddToCart={handleAddToCart} onDownloadPDF={setActivePrintData} />
 
               {/* Haulage Transport Rates Promo Banner */}
               <div className="mt-8 bg-brand-green-800 text-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4 border border-brand-green-700">
@@ -637,6 +640,7 @@ export default function App() {
           setIsCartOpen(false);
           setIsCheckoutOpen(true);
         }}
+        onDownloadPDF={setActivePrintData}
       />
 
       {/* Modal: Lumber Calculator Dedicated Overlay (Fallback or trigger modal) */}
@@ -647,6 +651,7 @@ export default function App() {
             <LumberCalculator 
               onAddToCart={handleAddToCart} 
               onClose={() => setIsEstimatorOpen(false)} 
+              onDownloadPDF={setActivePrintData}
             />
           </div>
         </div>
@@ -659,6 +664,7 @@ export default function App() {
           <div className="relative max-w-4xl w-full text-left shadow-2xl transition-all my-8">
             <TransportEstimator
               onClose={() => setIsTransportOpen(false)}
+              onDownloadPDF={setActivePrintData}
             />
           </div>
         </div>
@@ -842,6 +848,12 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Printable Invoice/Quotation Popup Area */}
+      <PrintArea 
+        data={activePrintData} 
+        onClose={() => setActivePrintData(null)} 
+      />
 
     </div>
   );
