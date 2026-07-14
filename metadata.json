@@ -1,0 +1,6 @@
+{
+  "name": "Lema Timber and Supplies",
+  "description": "Premium timber, steel bars, poles, fencing, and water tank supplier in Kitengela Town. Features an interactive wood volume and cost estimator, online store, local invoice generator, and WhatsApp checkout integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  
+  --color-brand-green-50: #FAF9F4;
+  --color-brand-green-100: #F3EFE0;
+  --color-brand-green-200: #E3DDC2;
+  --color-brand-green-600: #135E34;
+  --color-brand-green-700: #0E4727;
+  --color-brand-green-800: #09341C;
+  --color-brand-green-900: #2E1C0C;
+  --color-brand-green-950: #190F06;
+  
+  --color-brand-gold-100: #FDECDF;
+  --color-brand-gold-500: #E47F25;
+  --color-brand-gold-600: #C36413;
+  --color-brand-gold-700: #9E4A06;
+}
+
+@layer utilities {
+  /* Dynamic page backdrop */
+  .timber-pattern {
+    background-image: radial-gradient(#135E3415 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+  }
+  
+  /* Natural Tones custom card style */
+  .natural-card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  /* Scrolling Marquee */
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  
+  .marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+  }
+
+  .marquee-content {
+    display: flex;
+    width: max-content;
+    animation: marquee 35s linear infinite;
+  }
+  
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ==========================================================================
+   PRISTINE PRINT MEDIA STYLES (For PDF Quotation Generation)
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: monospace !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Hide all elements during printing */
+  body * {
+    visibility: hidden !important;
+    background-color: transparent !important;
+  }
+
+  /* Show only our dedicated printable sheet and its nested descendants */
+  #print-sheet-invoice,
+  #print-sheet-invoice *,
+  #print-invoice-sheet,
+  #print-invoice-sheet * {
+    visibility: visible !important;
+  }
+
+  /* Position the printable sheet perfectly at the top-left */
+  #print-sheet-invoice,
+  #print-invoice-sheet {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 24px !important;
+    margin: 0 !important;
+    display: block !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Hide buttons or icons that are explicitly marked to be hidden during printing */
+  .print\:hidden,
+  button,
+  .cursor-pointer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+
